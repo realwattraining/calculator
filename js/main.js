@@ -7,13 +7,31 @@ function createButton(j, n) {
     b.value = i;
     b.className = "row1";
     b.onclick = function() {
-      var result = document.getElementById("result");
+      var result = document.getElementById("input");
       result.value += this.value;
     };
     f.appendChild(b);
   }
   document.body.appendChild(f);
   document.body.appendChild(br);
+}
+
+function getOperand(operand) {
+  var input_val = document.getElementById("input");
+  switch (operand) {
+    case "+":
+      input_val.value += "+";
+      break;
+    case "-":
+      input_val.value += "-";
+      break;
+    case "*":
+      input_val.value += "*";
+      break;
+    case "/":
+      input_val.value += "/";
+      break;
+  }
 }
 
 function button(tag, type, val, cls, id, event) {
@@ -31,17 +49,19 @@ function button(tag, type, val, cls, id, event) {
 function clearResult() {
   var result = document.getElementById("result");
   result.value = "";
+  var input = document.getElementById("input");
+  input.value = "";
 }
 
 function zeroResult() {
-  var result = document.getElementById("result");
+  var result = document.getElementById("input");
   result.value += "0";
 }
 
-function sum() {
-  var result1 = document.getElementById("result");
-  var result2 = document.getElementById("result");
-  return result1 + result2;
+function calculate() {
+  var in_val = document.getElementById("input");
+  var ans = Math.floor(+eval(in_val.value));
+  document.getElementById("result").value = "=" + ans;
 }
 
 window.onload = function() {
@@ -54,11 +74,11 @@ window.onload = function() {
   this.button("input", "button", ".", "row1", "clear", this.clearResult);
   var br = document.createElement("br");
   document.body.appendChild(br);
-  this.button("input", "button", "+", "row1", "clear", this.sum);
-  this.button("input", "button", "-", "row1", "clear", this.clearResult);
-  this.button("input", "button", "x", "row1", "clear", this.clearResult);
+  // this.button("input", "button", "+", "row1", "add", this.getOperand("+"));
+  // this.button("input", "button", "-", "row1", "sub", this.getOperand("-"));
+  // this.button("input", "button", "x", "row1", "mul", this.getOperand("*"));
+  // document.body.appendChild(br);
+  // this.button("input", "button", "/", "row1", "div", this.getOperand("/"));
   document.body.appendChild(br);
-  this.button("input", "button", "/", "row1", "clear", this.clearResult);
-  document.body.appendChild(br);
-  this.button("input", "button", "=", "row1", "clear", this.clearResult);
+  this.button("input", "button", "=", "row1", "equal", this.calculate);
 };
